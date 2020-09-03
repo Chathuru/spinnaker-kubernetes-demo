@@ -16,5 +16,5 @@ spec:
         app: webapp
     spec:
       containers:
-        - image: chathuru/maven-webapp:${parameters.tag}
+        - image: chathuru/maven-webapp
           name: webapp
