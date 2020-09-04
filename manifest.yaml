@@ -15,7 +15,7 @@ spec:
         app: webapp
     spec:
       containers:
-        - image: chathuru/maven-webapp:${trigger['Tag']}
+        - image: chathuru/maven-webapp:${trigger.Tag}
           name: webapp
           ports:
           - containerPort: 8080
