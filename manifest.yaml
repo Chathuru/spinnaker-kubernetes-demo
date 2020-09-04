@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         app: webapp
+        trigger: ${#triggerResolvedArtifactByType("docker/image")["reference"]}
+        version: ${trigger['Tag']}
     spec:
       containers:
         - image: chathuru/maven-webapp
