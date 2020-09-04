@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   labels:
     app: webapp
-    trigger: ${#triggerResolvedArtifactByType("docker/image")["reference"]}
-    #version: ${#triggerResolvedArtifactByType("docker/image")["version"]}
+    #trigger: ${#triggerResolvedArtifactByType("docker/image")["reference"]}
+    version: ${#triggerResolvedArtifactByType("docker/image")["version"]}
   name: webapp
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
         app: webapp
     spec:
       containers:
-        - image: chathuru/maven-webapp
+        - image: ${#triggerResolvedArtifactByType("docker/image")["reference"]}
           name: ${parameters.Tag}
           ports:
           - containerPort: 8080
