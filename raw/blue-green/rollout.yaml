@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: blue-green-helm-guestbook
+  labels:
+    app: helm-guestbook
+    chart: helm-guestbook-0.1.0
+    release: blue-green
+    heritage: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: helm-guestbook
+      release: blue-green
+  strategy:
+    blueGreen:
+      activeService: blue-green-helm-guestbook
+      previewService: blue-green-helm-guestbook-preview
+  template:
+    metadata:
+      labels:
+        app: helm-guestbook
+        release: blue-green
+    spec:
+      containers:
+        - name: helm-guestbook
+          image: "gcr.io/heptio-images/ks-guestbook-demo:0.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {}
